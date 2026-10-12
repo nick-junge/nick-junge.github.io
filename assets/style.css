@@ -74,6 +74,13 @@ p { margin: 0 0 1rem; }
 .facts dt { font-size: 0.875rem; color: var(--muted); }
 .facts dd { margin: 0.1rem 0 0; font-weight: 600; }
 
+/* Short summary for skimming readers */
+.summary { margin: -1rem 0 2.5rem; max-width: var(--text); }
+.summary div { display: grid; grid-template-columns: 1fr; gap: 0.1rem; padding: 0.6rem 0; }
+@media (min-width: 640px) { .summary div { grid-template-columns: 8.5rem 1fr; gap: 1.5rem; } }
+.summary dt { font-weight: 700; }
+.summary dd { margin: 0; }
+
 /* Figures: numbered, because they follow the order of the story */
 figure { margin: 2rem 0 2.5rem; }
 .plate {
