@@ -1,0 +1,87 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 480" role="img" aria-labelledby="t d">
+  <title id="t">RNDRDY multi-agent workflow</title>
+  <desc id="d">The applicant chats with an advisor agent and uploads project documents. The writer agent drafts every field. The review agent checks the draft in two stages, formal rules in code and a model check of logic, depth and grounding. Weak wording goes back to the writer, which regenerates only the flagged sections. Missing facts go back to the advisor for a targeted follow-up with the applicant. A loop coordinator runs up to five cycles per round. The result is a PDF draft the applicant can edit, or an honest verdict that the project lacks fundable R&amp;D substance.</desc>
+  <style>
+    .box{fill:#fff;stroke:#16201C;stroke-width:1.5}
+    .agent{fill:#E8EEFA;stroke:#1F5FBF;stroke-width:1.75}
+    .loop{fill:none;stroke:#1F5FBF;stroke-width:1.25;stroke-dasharray:5 4}
+    .h{font:600 17px "Helvetica Neue",Arial,sans-serif;fill:#16201C}
+    .ha{font:600 17px "Helvetica Neue",Arial,sans-serif;fill:#173F86}
+    .s{font:400 13.5px "Helvetica Neue",Arial,sans-serif;fill:#4A5550}
+    .l{font:500 12.5px "Helvetica Neue",Arial,sans-serif;fill:#4A5550}
+    .la{font:600 12.5px "Helvetica Neue",Arial,sans-serif;fill:#1F5FBF}
+    .ln{stroke:#16201C;stroke-width:1.5;fill:none}
+    .lna{stroke:#1F5FBF;stroke-width:1.75;fill:none}
+    .lnd{stroke:#8A948D;stroke-width:1.25;fill:none;stroke-dasharray:5 4}
+  </style>
+  <defs>
+    <marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#16201C"/></marker>
+    <marker id="ab" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#1F5FBF"/></marker>
+    <marker id="ag" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#8A948D"/></marker>
+  </defs>
+
+  <!-- loop frame -->
+  <rect class="loop" x="506" y="30" width="242" height="440" rx="14"/>
+  <text class="la" x="627" y="452" text-anchor="middle">Loop coordinator: max. 5 cycles</text>
+
+  <!-- Applicant -->
+  <rect class="box" x="30" y="50" width="160" height="120" rx="10"/>
+  <text class="h" x="48" y="84">Applicant</text>
+  <text class="s" x="48" y="108">Describes the project</text>
+  <text class="s" x="48" y="126">in a chat and uploads</text>
+  <text class="s" x="48" y="144">project documents</text>
+
+  <path class="ln" d="M190 98H246" marker-end="url(#a)"/>
+  <text class="l" x="218" y="88" text-anchor="middle">chat</text>
+  <path class="lnd" d="M250 138H194" marker-end="url(#ag)"/>
+  <text class="l" x="222" y="156" text-anchor="middle">asks</text>
+
+  <!-- Advisor -->
+  <rect class="agent" x="250" y="50" width="210" height="120" rx="10"/>
+  <text class="ha" x="268" y="84">Advisor agent</text>
+  <text class="s" x="268" y="108">Interviews the applicant,</text>
+  <text class="s" x="268" y="126">digs deeper on thin answers,</text>
+  <text class="s" x="268" y="144">creates the application</text>
+
+  <path class="lna" d="M460 110H514" marker-end="url(#ab)"/>
+  <text class="la" x="482" y="100" text-anchor="middle">facts</text>
+
+  <!-- Writer -->
+  <rect class="agent" x="520" y="50" width="214" height="120" rx="10"/>
+  <text class="ha" x="538" y="84">Writer agent</text>
+  <text class="s" x="538" y="108">Strongest truthful version</text>
+  <text class="s" x="538" y="126">of every field, within the</text>
+  <text class="s" x="538" y="144">official character limits</text>
+
+  <!-- Writer to Review / Review to Writer -->
+  <path class="lna" d="M585 170V274" marker-end="url(#ab)"/>
+  <text class="la" x="577" y="228" text-anchor="end">draft</text>
+  <path class="lna" d="M670 280V176" marker-end="url(#ab)"/>
+  <text class="la" x="678" y="214">weak</text>
+  <text class="la" x="678" y="230">wording</text>
+
+  <!-- Review -->
+  <rect class="agent" x="520" y="280" width="214" height="140" rx="10"/>
+  <text class="ha" x="538" y="314">Review agent</text>
+  <text class="s" x="538" y="338">1. Formal rules in code</text>
+  <text class="s" x="538" y="358">2. Model checks logic,</text>
+  <text class="s" x="538" y="376">depth and grounding of</text>
+  <text class="s" x="538" y="394">every claim</text>
+
+  <!-- Review to Advisor -->
+  <path class="lna" d="M520 350H355V176" marker-end="url(#ab)"/>
+  <text class="la" x="438" y="340" text-anchor="middle">missing facts</text>
+  <text class="l" x="438" y="372" text-anchor="middle">targeted follow-up</text>
+  <text class="l" x="438" y="388" text-anchor="middle">with the applicant</text>
+
+  <!-- Review to Output -->
+  <path class="ln" d="M734 350H784" marker-end="url(#a)"/>
+
+  <!-- Output -->
+  <rect class="box" x="790" y="280" width="150" height="140" rx="10"/>
+  <text class="h" x="806" y="314">Result</text>
+  <text class="s" x="806" y="338">PDF draft in portal</text>
+  <text class="s" x="806" y="356">structure, editable,</text>
+  <text class="s" x="806" y="374">or an honest verdict:</text>
+  <text class="s" x="806" y="392">no R&amp;D substance</text>
+</svg>

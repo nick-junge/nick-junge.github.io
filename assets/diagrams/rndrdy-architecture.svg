@@ -1,0 +1,53 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 400" role="img" aria-labelledby="t d">
+  <title id="t">RNDRDY system architecture</title>
+  <desc id="d">The browser talks to a Next.js web app on Vercel in Frankfurt. The app stores data, files and vectors in Supabase in Frankfurt with tenant isolation through row-level security, and calls Claude and Titan embeddings through AWS Bedrock with inference routed only within six EU countries. All processing stays in the EU.</desc>
+  <style>
+    .box{fill:#fff;stroke:#16201C;stroke-width:1.5}
+    .app{fill:#E8EEFA;stroke:#1F5FBF;stroke-width:1.75}
+    .svc{fill:#fff;stroke:#16201C;stroke-width:1.5}
+    .eu{fill:#F1F3EF;stroke:#8A948D;stroke-width:1.25;stroke-dasharray:6 4}
+    .h{font:600 17px "Helvetica Neue",Arial,sans-serif;fill:#16201C}
+    .ha{font:600 17px "Helvetica Neue",Arial,sans-serif;fill:#173F86}
+    .s{font:400 13.5px "Helvetica Neue",Arial,sans-serif;fill:#4A5550}
+    .l{font:600 12.5px "Helvetica Neue",Arial,sans-serif;fill:#5B6660}
+    .ln{stroke:#16201C;stroke-width:1.5;fill:none}
+  </style>
+  <defs>
+    <marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#16201C"/></marker>
+  </defs>
+
+  <rect class="box" x="30" y="140" width="160" height="110" rx="10"/>
+  <text class="h" x="48" y="175">Browser</text>
+  <text class="s" x="48" y="199">Applicant signs in,</text>
+  <text class="s" x="48" y="217">chats and uploads</text>
+
+  <rect class="eu" x="226" y="25" width="714" height="350" rx="14"/>
+  <text class="l" x="246" y="360">All processing in the EU, primarily Frankfurt</text>
+
+  <path class="ln" d="M196 195H244" marker-start="url(#a)" marker-end="url(#a)"/>
+
+  <rect class="app" x="250" y="105" width="250" height="180" rx="10"/>
+  <text class="ha" x="268" y="139">Web app</text>
+  <text class="s" x="268" y="161">Next.js on Vercel, Frankfurt</text>
+  <text class="s" x="268" y="191">Chat-first interface</text>
+  <text class="s" x="268" y="209">Agent orchestration</text>
+  <text class="s" x="268" y="227">Background jobs for agents</text>
+  <text class="s" x="268" y="245">and document processing</text>
+
+  <rect class="svc" x="590" y="45" width="330" height="140" rx="10"/>
+  <text class="h" x="608" y="79">Supabase, Frankfurt</text>
+  <text class="s" x="608" y="103">Auth, Postgres, file storage</text>
+  <text class="s" x="608" y="121">Vector search over 20 sources</text>
+  <text class="s" x="608" y="139">and the applicant's documents</text>
+  <text class="s" x="608" y="157">Tenant isolation in the database</text>
+
+  <rect class="svc" x="590" y="205" width="330" height="140" rx="10"/>
+  <text class="h" x="608" y="239">AWS Bedrock, EU inference</text>
+  <text class="s" x="608" y="263">Claude Sonnet for all agents</text>
+  <text class="s" x="608" y="281">Vision for scanned documents</text>
+  <text class="s" x="608" y="299">Titan embeddings</text>
+  <text class="s" x="608" y="317">Routed within six EU countries</text>
+
+  <path class="ln" d="M500 155H545V115H584" marker-end="url(#a)"/>
+  <path class="ln" d="M500 235H545V275H584" marker-end="url(#a)"/>
+</svg>

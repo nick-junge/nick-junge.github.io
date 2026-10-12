@@ -1,0 +1,80 @@
+<!doctype html>
+<!--
+  TEMPLATE for a new project page.
+  1. Copy this file and rename it, e.g. projects/automations.html
+  2. Replace every [placeholder], delete sections you do not need
+  3. Put diagrams as SVG or PNG into assets/diagrams/ and reference them below
+  4. Add a row for the project in index.html
+-->
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>[Project name] case study</title>
+  <meta name="description" content="[One sentence: what the system does]. Case study by Nick Junge.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<div class="wrap">
+
+  <header class="site-head">
+    <a class="home" href="../index.html">Nick Junge</a>
+    <nav><a href="../index.html#projects">Projects</a></nav>
+  </header>
+
+  <main>
+    <h1>[Project name]</h1>
+    <p class="lede">[One sentence: what it does and for whom.]</p>
+
+    <dl class="facts">
+      <div><dt>Role</dt><dd>[e.g. Design and build]</dd></div>
+      <div><dt>Timeline</dt><dd>[Month Year]</dd></div>
+      <div><dt>Status</dt><dd>[e.g. In daily use]</dd></div>
+      <div><dt>Stack</dt><dd>[Tools and models]</dd></div>
+    </dl>
+
+    <figure>
+      <div class="plate"><img src="../assets/diagrams/[diagram].svg" alt="[Describe what the diagram shows]" width="960" height="400"></div>
+      <figcaption><b>Fig. 1</b>[What the reader should take away.] <span class="scroll-hint">Swipe to see the full diagram.</span></figcaption>
+    </figure>
+
+    <section class="prose">
+      <h2>The problem</h2>
+      <p>[What took time or went wrong before. Include the baseline you measured, e.g. 30 minutes per meeting protocol.]</p>
+
+      <h2>What I built</h2>
+      <p>[How it works in three to five sentences, from the user's point of view.]</p>
+    </section>
+
+    <h2>Key decisions</h2>
+    <ol class="decisions">
+      <li><h3>[Decision 1, e.g. model choice]</h3><p>[What you chose and why, incl. trade-off or cost.]</p></li>
+      <li><h3>[Decision 2, e.g. privacy]</h3><p>[What you chose and why.]</p></li>
+    </ol>
+
+    <section class="prose">
+      <h2>Results</h2>
+      <ul>
+        <li>[Measured result vs. baseline]</li>
+        <li>[Running cost per month]</li>
+      </ul>
+
+      <h2>What I learned</h2>
+      <p>[One honest learning.]</p>
+
+      <h2>Demo</h2>
+    </section>
+    <div class="video"><iframe src="https://www.youtube-nocookie.com/embed/VIDEO_ID" title="[Project] demo" allow="encrypted-media; picture-in-picture" allowfullscreen loading="lazy"></iframe></div>
+  </main>
+
+  <footer class="site-foot">
+    <p><a href="../index.html">Back to all projects</a></p>
+    <p>Written and built by Nick Junge. Last updated [Month Year].</p>
+  </footer>
+
+</div>
+</body>
+</html>

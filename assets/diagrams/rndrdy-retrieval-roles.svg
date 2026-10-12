@@ -1,0 +1,69 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 440" role="img" aria-labelledby="t d">
+  <title id="t">Role-based retrieval in RNDRDY</title>
+  <desc id="d">Each of the 20 knowledge sources carries one of five roles: legal basis (5), review criterion (10), style template (2), anti-pattern (1) and context (2). A role filter in the database decides which roles each agent receives. The writer gets style templates and the legal basis, plus a curated positive example and anti-pattern for every field. The advisor gets review criteria and the legal basis. The review agent gets the review criteria.</desc>
+  <style>
+    .chip{fill:#fff;stroke:#8A948D;stroke-width:1.25}
+    .filter{fill:#16201C}
+    .agent{fill:#E8EEFA;stroke:#1F5FBF;stroke-width:1.75}
+    .note{fill:#F1F3EF}
+    .h{font:600 17px "Helvetica Neue",Arial,sans-serif;fill:#16201C}
+    .hw{font:600 17px "Helvetica Neue",Arial,sans-serif;fill:#fff}
+    .ha{font:600 16px "Helvetica Neue",Arial,sans-serif;fill:#173F86}
+    .c{font:600 13.5px "Helvetica Neue",Arial,sans-serif;fill:#16201C}
+    .n{font:700 13.5px "Helvetica Neue",Arial,sans-serif;fill:#1F5FBF}
+    .s{font:400 13.5px "Helvetica Neue",Arial,sans-serif;fill:#4A5550}
+    .sw{font:400 13.5px "Helvetica Neue",Arial,sans-serif;fill:#D5DAD3}
+    .ln{stroke:#8A948D;stroke-width:1.25;fill:none}
+    .lna{stroke:#1F5FBF;stroke-width:1.75;fill:none}
+  </style>
+  <defs>
+    <marker id="ab" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" fill="#1F5FBF"/></marker>
+  </defs>
+
+  <text class="h" x="30" y="36">Knowledge base: 20 sources</text>
+
+  <rect class="chip" x="30" y="52" width="300" height="42" rx="8"/>
+  <text class="c" x="46" y="78">Legal basis</text><text class="s" x="170" y="78">law, state aid rules</text><text class="n" x="314" y="78" text-anchor="end">5</text>
+  <rect class="chip" x="30" y="102" width="300" height="42" rx="8"/>
+  <text class="c" x="46" y="128">Review criterion</text><text class="s" x="170" y="128">assessor guides</text><text class="n" x="314" y="128" text-anchor="end">10</text>
+  <rect class="chip" x="30" y="152" width="300" height="42" rx="8"/>
+  <text class="c" x="46" y="178">Style template</text><text class="s" x="170" y="178">model applications</text><text class="n" x="314" y="178" text-anchor="end">2</text>
+  <rect class="chip" x="30" y="202" width="300" height="42" rx="8"/>
+  <text class="c" x="46" y="228">Anti-pattern</text><text class="s" x="170" y="228">official bad example</text><text class="n" x="314" y="228" text-anchor="end">1</text>
+  <rect class="chip" x="30" y="252" width="300" height="42" rx="8"/>
+  <text class="c" x="46" y="278">Context</text><text class="s" x="170" y="278">background</text><text class="n" x="314" y="278" text-anchor="end">2</text>
+
+  <path class="ln" d="M330 73C360 73 360 160 390 166"/>
+  <path class="ln" d="M330 123C360 123 360 166 390 170"/>
+  <path class="ln" d="M330 173H390"/>
+  <path class="ln" d="M330 223C360 223 360 180 390 176"/>
+  <path class="ln" d="M330 273C360 273 360 186 390 180"/>
+
+  <rect class="filter" x="390" y="116" width="190" height="114" rx="10"/>
+  <text class="hw" x="408" y="150">Role filter</text>
+  <text class="sw" x="408" y="174">Every chunk carries its</text>
+  <text class="sw" x="408" y="192">source role, filtered</text>
+  <text class="sw" x="408" y="210">in the database</text>
+
+  <path class="lna" d="M580 150C612 150 612 96 634 96" marker-end="url(#ab)"/>
+  <path class="lna" d="M580 173H634" marker-end="url(#ab)"/>
+  <path class="lna" d="M580 196C612 196 612 282 634 282" marker-end="url(#ab)"/>
+
+  <rect class="agent" x="640" y="36" width="290" height="114" rx="10"/>
+  <text class="ha" x="658" y="66">Writer agent</text>
+  <text class="s" x="658" y="90">Style templates, legal basis,</text>
+  <text class="s" x="658" y="108">plus a curated good and bad</text>
+  <text class="s" x="658" y="126">example for every field</text>
+
+  <rect class="agent" x="640" y="160" width="290" height="80" rx="10"/>
+  <text class="ha" x="658" y="190">Advisor agent</text>
+  <text class="s" x="658" y="214">Review criteria, legal basis</text>
+
+  <rect class="agent" x="640" y="250" width="290" height="80" rx="10"/>
+  <text class="ha" x="658" y="280">Review agent</text>
+  <text class="s" x="658" y="304">Review criteria</text>
+
+  <rect class="note" x="30" y="356" width="900" height="66" rx="10"/>
+  <text class="c" x="48" y="382">Why this exists</text>
+  <text class="s" x="48" y="404">Plain similarity search missed the reference examples in its top 5, and the writer ignored negative examples.</text>
+</svg>

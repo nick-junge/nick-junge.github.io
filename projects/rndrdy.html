@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>RNDRDY case study</title>
+  <meta name="description" content="RNDRDY drafts German R&amp;D tax credit applications through a loop of specialised AI agents. Case study by Nick Junge.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<div class="wrap">
+
+  <header class="site-head">
+    <a class="home" href="../index.html">Nick Junge</a>
+    <nav><a href="../index.html#projects">Projects</a></nav>
+  </header>
+
+  <main>
+    <h1>RNDRDY</h1>
+    <p class="lede">An AI system that drafts German R&amp;D tax credit applications (Forschungszulage) through a loop of specialised agents.</p>
+
+    <dl class="facts">
+      <div><dt>Role</dt><dd>Solo founder: product, architecture, build</dd></div>
+      <div><dt>Timeline</dt><dd>Since September 2025</dd></div>
+      <div><dt>Status</dt><dd>Private beta, first production run</dd></div>
+      <div><dt>Stack</dt><dd>Next.js, Supabase, AWS Bedrock (Claude), Vercel</dd></div>
+    </dl>
+
+    <figure>
+      <div class="plate"><img src="../assets/diagrams/rndrdy-agent-loop.svg" alt="Multi-agent workflow: the applicant chats with an advisor agent and uploads documents, a writer agent drafts, a review agent checks in two stages. Weak wording goes back to the writer, missing facts go back to the advisor. A loop coordinator runs up to five cycles per round. The result is an editable PDF draft or an honest verdict that the project lacks R&amp;D substance." width="960" height="480"></div>
+      <figcaption><b>Fig. 1</b>The agent loop. The review agent routes every finding to the agent that can fix it: wording to the writer, missing facts to the advisor. <span class="scroll-hint">Swipe to see the full diagram.</span></figcaption>
+    </figure>
+
+    <section class="prose">
+      <h2>The problem</h2>
+      <p>Germany's research allowance (Forschungszulage) reimburses a share of eligible R&amp;D costs. To claim it, a company first needs a certificate from the BSFZ, granted on the basis of a written project description.</p>
+      <p>That description decides the outcome. It has to show novelty, technical risk and a clear line against the state of the art, in the language assessors expect. Specialised consultants usually work for a success fee of 15 to 25 percent of the grant and focus on larger projects. Many smaller R&amp;D projects in the Mittelstand never get an application at all.</p>
+
+      <h2>What I built</h2>
+      <p>RNDRDY starts with a conversation. The applicant describes the project in a chat and uploads existing documents such as project descriptions or specifications; scans are read with a vision model. The advisor agent works like a focused interviewer: it digs deeper on thin answers and creates the application once it has enough substance.</p>
+      <p>The writer agent then drafts every field to the official portal structure and character limits. The review agent simulates the official assessment and routes each finding: weak wording goes back to the writer, which regenerates only the flagged sections; missing facts go back to the advisor, which reopens the chat for a targeted follow-up. A loop coordinator runs up to five cycles per round and keeps the applicant informed.</p>
+      <p>The result is a PDF in the structure of the official portal, which the applicant can still edit before submitting. If a project lacks fundable R&amp;D substance, the system says so openly.</p>
+    </section>
+
+    <h2>Architecture</h2>
+    <figure>
+      <div class="plate"><img src="../assets/diagrams/rndrdy-architecture.svg" alt="Architecture: browser, Next.js web app on Vercel in Frankfurt, Supabase in Frankfurt with tenant isolation, AWS Bedrock with EU-only inference for Claude, vision and embeddings." width="960" height="400"></div>
+      <figcaption><b>Fig. 2</b>System architecture. Applications describe unpublished R&amp;D, so hosting, data and model inference all stay in the EU.</figcaption>
+    </figure>
+
+    <h2>Key decisions</h2>
+    <ol class="decisions">
+      <li>
+        <h3>Multi-agent from the first release</h3>
+        <p>Quality comes from the review step, so the full loop of advisor, writer and reviewer was part of the first release. It is the core of the product and shaped the architecture from day one.</p>
+      </li>
+      <li>
+        <h3>Strongest truthful version, checked by an independent reviewer</h3>
+        <p>The writer formulates each project as convincingly as possible, strictly within the facts the applicant supplied, like a lawyer presenting a client's case. The review agent is the counterpart: it checks that every claim traces back to the conversation or the applicant's documents and flags overclaiming as a rejection risk.</p>
+      </li>
+      <li>
+        <h3>Rules in code, judgement in the model</h3>
+        <p>Everything that can be checked deterministically, such as character limits, formal portal rules and banned marketing language, runs as code before and after each model call. The model only judges what needs judgement: the logic of the argument, depth and grounding.</p>
+      </li>
+      <li>
+        <h3>Retrieval by source role</h3>
+        <p>In a smoke test, plain similarity search left the reference examples outside the top five results, and the writer agent ignored negative examples. I tagged all 20 sources with one of five roles and filter by role in the database. Each agent now receives exactly the material its task needs (Fig. 3).</p>
+      </li>
+      <li>
+        <h3>Language as a guardrail</h3>
+        <p>Toward the applicant, the system never labels a draft as eligible. Eligibility is the assessor's decision, and advice close to tax consulting is regulated in Germany. Drafts are described as improvable through further iterations.</p>
+      </li>
+    </ol>
+
+    <figure>
+      <div class="plate"><img src="../assets/diagrams/rndrdy-retrieval-roles.svg" alt="Role-based retrieval: 20 sources tagged as legal basis, review criterion, style template, anti-pattern or context. A role filter gives the writer style templates and legal basis plus curated examples per field, the advisor review criteria and legal basis, and the review agent review criteria." width="960" height="440"></div>
+      <figcaption><b>Fig. 3</b>Role-based retrieval. The role filter runs in the database, so agents never see sources outside their task.</figcaption>
+    </figure>
+
+    <section class="prose">
+      <h2>How I build it</h2>
+      <p>I act as product owner and architect. A product owner agent turns my decisions into feature specs and architecture decision records in an Obsidian vault. A dev agent in Claude Code implements each spec, writes tests and opens a pull request with a preview deployment. I review every pull request, with a separate Claude session as second opinion. Quality gates with production tests close every release stage.</p>
+    </section>
+
+    <figure>
+      <div class="plate"><img src="../assets/diagrams/rndrdy-build-workflow.svg" alt="Build workflow: product owner agent writes specs and architecture records, dev agent implements and opens pull requests, review with a separate Claude session, quality gate. Findings feed the next spec. Nick approves every step." width="960" height="330"></div>
+      <figcaption><b>Fig. 4</b>The build workflow. Three AI roles with separate contexts, one human decision maker.</figcaption>
+    </figure>
+
+    <section class="prose">
+      <h2>Open questions I am working on</h2>
+      <p>When does a multi-agent review loop converge, and when does it start to circle? And how can a system check reliably that every statement in a draft is backed by a fact the applicant supplied?</p>
+
+      <h2>Where it stands</h2>
+      <ul>
+        <li>The first release is complete and live, from login to PDF export, documented in 8 architecture decision records and covered by more than 150 automated tests.</li>
+        <li>The first real test case is RNDRDY itself: the system is drafting the research allowance application for its own development.</li>
+        <li>Generated drafts are evaluated against the official positive and negative examples and the assessor guidelines.</li>
+      </ul>
+      <p><b>Next:</b> a pilot with a first external company, then measured results on this page.</p>
+
+      <h2>Demo</h2>
+    </section>
+
+    <!-- TODO: upload a 60 to 90 second screen recording with dummy data to YouTube as "Unlisted".
+         Then replace the whole div.video-slot below with:
+         <div class="video"><iframe src="https://www.youtube-nocookie.com/embed/VIDEO_ID" title="RNDRDY demo" allow="encrypted-media; picture-in-picture" allowfullscreen loading="lazy"></iframe></div>
+    -->
+    <div class="video-slot"><span class="todo">[Demo video goes here]</span></div>
+
+    <!-- TODO: uncomment once rndrdy.de is publicly reachable
+    <p style="margin-top:2rem"><a href="https://rndrdy.de">Visit rndrdy.de</a></p>
+    -->
+  </main>
+
+  <footer class="site-foot">
+    <p><a href="../index.html">Back to all projects</a></p>
+    <p>Written and built by Nick Junge. Last updated October 2026.</p>
+  </footer>
+
+</div>
+</body>
+</html>
