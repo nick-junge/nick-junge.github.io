@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Meeting minutes pipeline case study</title>
+  <meta name="description" content="A background pipeline that turns voice memos and screen recordings into structured meeting minutes, files them by client and sends them as PDF. Case study by Nick Junge.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<div class="wrap">
+
+  <header class="site-head">
+    <a class="home" href="../index.html">Nick Junge</a>
+    <nav><a href="../index.html#projects">Projects</a><a href="https://www.linkedin.com/in/nick-junge/">LinkedIn</a></nav>
+  </header>
+
+  <main>
+    <h1>Meeting minutes pipeline</h1>
+    <p class="lede">A background pipeline on my Mac that turns voice memos and screen recordings into structured meeting minutes, files them by client and sends them to me as PDF.</p>
+
+    <dl class="facts">
+      <div><dt>Role</dt><dd>Design and build</dd></div>
+      <div><dt>Timeline</dt><dd>October 2026</dd></div>
+      <div><dt>Status</dt><dd>In daily use</dd></div>
+      <div><dt>Stack</dt><dd>Python, Whisper (MLX), exchangeable LLM, Obsidian, launchd</dd></div>
+    </dl>
+
+    <dl class="summary">
+      <div><dt>Problem</dt><dd>Writing minutes after client meetings takes time, and action items get lost between recordings, notes and inbox.</dd></div>
+      <div><dt>Solution</dt><dd>Every new recording becomes a two-page protocol with summary, key points and dated to-dos, filed in the right client folder without any manual start.</dd></div>
+      <div><dt>What it shows</dt><dd>I automate my own knowledge work end to end, with local AI, guardrails in code and no additional running cost.</dd></div>
+    </dl>
+
+    <figure>
+      <div class="plate"><img src="../assets/diagrams/meeting-minutes-pipeline.svg" alt="Pipeline: voice memos from the iPhone, screen recordings and older recordings feed a background service on the Mac. It detects new files, transcribes them locally with Whisper, summarises them with an exchangeable language model and checks the client against a verbatim quote. With evidence the minutes go to the client folder, then to a PDF and an email. Without evidence they go to an inbox for later assignment." width="960" height="460"></div>
+      <figcaption><b>Fig. 1</b>The pipeline. Transcription runs locally, and a client is only assigned when the code can verify the evidence. <span class="scroll-hint">Swipe to see the full diagram.</span></figcaption>
+    </figure>
+
+    <section class="prose">
+      <h2>The problem</h2>
+      <p>After a client meeting, the minutes compete with the next meeting. Recordings pile up on the phone, and action items with owners and due dates often live only in someone's memory. Writing a clean protocol by hand is exactly the kind of routine work that gets postponed.</p>
+
+      <h2>What I built</h2>
+      <p>I record a meeting with the iPhone voice memo app or capture a call with OBS on the Mac. A background service picks up every new recording, transcribes it locally and passes the transcript to a language model with a fixed prompt. Older recordings can be added on demand by sharing them to a folder in iCloud Drive.</p>
+      <p>Each protocol follows the same structure: key facts (date, participants, client), a short executive summary, one to five key points and a table of next steps with owner and due date. Relative dates such as "next Friday" are converted using the recording date. Anything the conversation does not state is marked as open, so the model never fills gaps with guesses.</p>
+      <p>The protocol lands in my Obsidian vault. Once it sits in a client folder, the pipeline renders a formatted PDF into that client's documents and emails it to me.</p>
+    </section>
+
+    <h2>Key decisions</h2>
+    <ol class="decisions">
+      <li>
+        <h3>Transcription stays on the device</h3>
+        <p>Whisper large-v3-turbo runs on the Apple Silicon GPU through MLX. Audio is never sent to an AI service, and transcription costs nothing.</p>
+      </li>
+      <li>
+        <h3>An exchangeable language model</h3>
+        <p>The summary step is encapsulated and only receives the transcript text. The model is chosen by confidentiality: a local open-weight model keeps every word on the device, a cloud model is used only through business access with training excluded by contract. Detection, filing and export stay the same either way.</p>
+      </li>
+      <li>
+        <h3>A client needs evidence</h3>
+        <p>The first version assigned known clients too eagerly: the mere presence of a client name in the prompt was enough for the model to guess. Now the model must return a verbatim quote containing the company name, and the code checks independently that this quote appears in the transcript or file name. Without evidence the protocol goes to an inbox.</p>
+      </li>
+      <li>
+        <h3>Correction in one field</h3>
+        <p>Unassigned or misassigned protocols are fixed by typing the client name into a property in Obsidian, also on the phone. On the next run the pipeline moves the file, removes the PDF from the wrong client folder and exports again.</p>
+      </li>
+      <li>
+        <h3>No new services</h3>
+        <p>macOS launchd runs the pipeline, Mail.app sends the PDF through my existing account, and iCloud moves recordings from phone to Mac. A file trigger reacts within seconds; a 10-minute interval catches delayed iCloud downloads. State tracking, a lock and three retries keep runs idempotent.</p>
+      </li>
+    </ol>
+
+    <section class="prose">
+      <h2>Privacy and consent</h2>
+      <p>I only record conversations when all participants agree. In Germany, recording non-public speech without consent is a criminal offence (§ 201 StGB), and the GDPR applies to the transcript.</p>
+
+      <!-- TODO: add measured results once available, e.g.
+           processing time per hour of audio, recordings processed, share of automatic client matches, minutes saved per protocol -->
+      <h2>Where it stands</h2>
+      <ul>
+        <li>In daily use since October 2026, for voice memos and screen recordings.</li>
+        <li>No additional running cost: local transcription, existing licences, existing mail account.</li>
+        <li>Limits: it only runs while the Mac is awake, and it does not separate speakers; participants come from names mentioned in the conversation.</li>
+      </ul>
+      <p><b>Next:</b> move the pipeline to a small Linux home server so it runs around the clock.</p>
+
+      <h2>What I learned</h2>
+      <p>Context in a prompt is also an invitation. A list of known clients, meant to help with spelling, made the model guess. Asking for a quote and checking it in code turned a judgement the model kept getting wrong into a rule it cannot break.</p>
+    </section>
+  </main>
+
+  <footer class="site-foot">
+    <p><a href="../index.html">Back to all projects</a> or <a href="https://www.linkedin.com/in/nick-junge/">reach me on LinkedIn</a>.</p>
+    <p>Written and built by Nick Junge. Last updated October 2026.</p>
+  </footer>
+
+</div>
+</body>
+</html>
