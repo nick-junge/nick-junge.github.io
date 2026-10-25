@@ -25,7 +25,7 @@
     <dl class="facts">
       <div><dt>Role</dt><dd>Design and build</dd></div>
       <div><dt>Timeline</dt><dd>October 2026</dd></div>
-      <div><dt>Status</dt><dd>In daily use</dd></div>
+      <div><dt>Status</dt><dd>In production use</dd></div>
       <div><dt>Stack</dt><dd>Python, Whisper (MLX), exchangeable LLM, Obsidian, launchd</dd></div>
     </dl>
 
@@ -46,7 +46,7 @@
 
       <h2>What I built</h2>
       <p>I record a meeting with the iPhone voice memo app or capture a call with OBS on the Mac. A background service picks up every new recording, transcribes it locally and passes the transcript to a language model with a fixed prompt. Older recordings can be added on demand by sharing them to a folder in iCloud Drive.</p>
-      <p>Each protocol follows the same structure: key facts (date, participants, client), a short executive summary, one to five key points and a table of next steps with owner and due date. Relative dates such as "next Friday" are converted using the recording date. Anything the conversation does not state is marked as open, so the model never fills gaps with guesses.</p>
+      <p>Each protocol follows the same structure: key facts (date, participants, client), a short executive summary, one to five key points and a table of next steps with owner and due date. Relative dates such as "next Friday" are converted using the recording date. Figures from the conversation, such as quantities, percentages, costs and time spans, are carried over exactly into the key points, so every argument keeps its numbers. Anything the conversation does not state is marked as open, so the model never fills gaps with guesses.</p>
       <p>The protocol lands in my Obsidian vault. Once it sits in a client folder, the pipeline renders a formatted PDF into that client's documents and emails it to me.</p>
     </section>
 
@@ -80,7 +80,7 @@
 
       <h2>Where it stands</h2>
       <ul>
-        <li>In use several times a day since October 2026, for voice memos and screen recordings.</li>
+        <li>In production use in several client projects since October 2026, several times a day, for voice memos and screen recordings.</li>
         <li>No additional running cost: local transcription, existing licences, existing mail account.</li>
         <li>Limits: it only runs while the Mac is awake, and it does not separate speakers; participants come from names mentioned in the conversation.</li>
       </ul>
