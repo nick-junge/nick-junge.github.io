@@ -36,7 +36,7 @@
     </dl>
 
     <figure>
-      <div class="plate"><img src="../assets/diagrams/meeting-minutes-pipeline.svg" alt="Pipeline: voice memos from the iPhone, screen recordings and older recordings feed a background service on the Mac. It detects new files, transcribes them locally with Whisper, summarises them with an exchangeable language model and checks the client against a verbatim quote. With evidence the minutes go to the client folder, then to a PDF and an email. Without evidence they go to an inbox for later assignment." width="960" height="460"></div>
+      <div class="plate"><img src="../assets/diagrams/meeting-minutes-pipeline.svg" alt="Pipeline: voice memos from the iPhone, screen recordings and older recordings feed a background service on the Mac. It detects new files, transcribes them locally with Whisper, summarises them with an exchangeable language model and checks the client against verifiable evidence. With evidence the minutes go to the client folder, then to a PDF and an email. Without evidence they go to an inbox for later assignment." width="960" height="460"></div>
       <figcaption><b>Fig. 1</b>The pipeline. Transcription runs locally, and a client is only assigned when the code can verify the evidence. <span class="scroll-hint">Swipe to see the full diagram.</span></figcaption>
     </figure>
 
@@ -54,7 +54,11 @@
     <ol class="decisions">
       <li>
         <h3>Transcription stays on the device</h3>
-        <p>Whisper large-v3-turbo runs on the Apple Silicon GPU through MLX. Audio is never sent to an AI service, and transcription costs nothing.</p>
+        <p>Whisper runs on the Apple Silicon GPU through MLX. Audio is never sent to an AI service, and transcription costs nothing. The default model is large-v3; one setting switches to large-v3-turbo. On an M2 with 16 GB, five minutes of audio take 146 seconds with large-v3 and 47 seconds with turbo. For a 53-minute meeting that is about 26 or 8 minutes.</p>
+      </li>
+      <li>
+        <h3>Hallucinations are caught in code</h3>
+        <p>Whisper tends to invent phrases such as "Thank you" or "Vielen Dank" in silent passages. Before transcription, the pipeline cuts long silence at the start and end and corrects the timestamps. Afterwards it removes segments that span more than 15 seconds with three words or fewer, drops known filler phrases after long pauses and collapses repeated identical segments. On the same recording, turbo matched 96 percent of the words of large-v3.</p>
       </li>
       <li>
         <h3>An exchangeable language model</h3>
@@ -62,7 +66,7 @@
       </li>
       <li>
         <h3>A client needs evidence</h3>
-        <p>The first version assigned known clients too eagerly: the mere presence of a client name in the prompt was enough for the model to guess. Now the model must return a verbatim quote containing the company name, and the code checks independently that this quote appears in the transcript or file name. Without evidence the protocol goes to an inbox.</p>
+        <p>The first version assigned known clients too eagerly: the mere presence of a client name in the prompt was enough for the model to guess. Now every assignment records its basis. Either the company is named in the conversation or file name, or the conversation points to an existing client beyond doubt (contacts, projects, systems). In both cases the model returns a verbatim quote, and the code checks that it appears in the source. A recording title from the voice memo app that matches a known client is the third and weakest basis, used only when the content fits. Titles never create new client folders. In case of doubt the protocol goes to an inbox.</p>
       </li>
       <li>
         <h3>Correction in one field</h3>
@@ -82,12 +86,13 @@
       <ul>
         <li>In production use in several client projects since October 2026, several times a day, for voice memos and screen recordings.</li>
         <li>No additional running cost: local transcription, existing licences, existing mail account.</li>
-        <li>Limits: it only runs while the Mac is awake, and it does not separate speakers; participants come from names mentioned in the conversation.</li>
+        <li>Limits: it only runs while the Mac is awake, and it does not separate speakers; participants come from names mentioned in the conversation. Mixed-language conversations are transcribed in the main language.</li>
       </ul>
       <p><b>Next:</b> move the pipeline to a small Linux home server so it runs around the clock.</p>
 
       <h2>What I learned</h2>
       <p>Context in a prompt is also an invitation. A list of known clients, meant to help with spelling, made the model guess. Asking for a quote and checking it in code turned a judgement the model kept getting wrong into a rule it cannot break.</p>
+      <p>Hallucinations also depend on configuration. The repeated "Thank you" loops traced back largely to the transcription settings: language detection from the first 30 seconds and conditioning on previous text.</p>
     </section>
   </main>
 

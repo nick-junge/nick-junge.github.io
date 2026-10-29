@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 460" role="img" aria-labelledby="t d">
   <title id="t">Meeting minutes pipeline</title>
-  <desc id="d">Three inputs feed the pipeline on the Mac: iPhone voice memos synced via iCloud, screen recordings from OBS, and older recordings dropped into an iCloud Drive folder. A background service detects new files, Whisper transcribes them locally, an exchangeable language model summarises them into structured data, and a client check accepts a client only with a verbatim quote found in the transcript or file name. With evidence the minutes go to the client folder, then to a PDF and an email. Without evidence they go to an inbox, where setting the client field later moves them to the client folder.</desc>
+  <desc id="d">Three inputs feed the pipeline on the Mac: iPhone voice memos synced via iCloud, screen recordings from OBS, and older recordings dropped into an iCloud Drive folder. A background service detects new files, Whisper transcribes them locally, an exchangeable language model summarises them into structured data, and a client check accepts a client only with evidence the code can verify: a verbatim quote from the transcript or file name, or a recording title that matches a known client. With evidence the minutes go to the client folder, then to a PDF and an email. Without evidence they go to an inbox, where setting the client field later moves them to the client folder.</desc>
   <style>
     .box{fill:#fff;stroke:#16201C;stroke-width:1.5}
     .app{fill:#E8EEFA;stroke:#1F5FBF;stroke-width:1.75}
@@ -55,7 +55,7 @@
 
   <rect class="box" x="760" y="60" width="160" height="90" rx="10"/>
   <text class="h" x="776" y="90">4 Client check</text>
-  <text class="s" x="776" y="112">Quote required,</text>
+  <text class="s" x="776" y="112">Evidence required,</text>
   <text class="s" x="776" y="130">verified in code</text>
 
   <path class="ln" d="M390 105H404" marker-end="url(#a)"/>
