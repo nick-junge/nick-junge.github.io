@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Research brain case study</title>
+  <meta name="description" content="A personal knowledge base that AI agents write, check and maintain, built on the LLM Wiki pattern. Case study by Nick Junge.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<div class="wrap">
+
+  <header class="site-head">
+    <a class="home" href="../index.html">Nick Junge</a>
+    <nav><a href="../index.html#projects">Projects</a><a href="https://www.linkedin.com/in/nick-junge/">LinkedIn</a></nav>
+  </header>
+
+  <main>
+    <h1>Research brain</h1>
+    <p class="lede">A personal knowledge base that AI agents write, check and maintain. I choose what to read, and the system turns articles, papers and books into an interlinked wiki that I can query from my phone.</p>
+
+    <dl class="facts">
+      <div><dt>Role</dt><dd>Design and build</dd></div>
+      <div><dt>Timeline</dt><dd>October to November 2026</dd></div>
+      <div><dt>Status</dt><dd>In personal use</dd></div>
+      <div><dt>Stack</dt><dd>Claude Code (headless), Obsidian, Python, launchd, GitHub</dd></div>
+    </dl>
+
+    <dl class="summary">
+      <div><dt>Problem</dt><dd>What I read disappears. Clippings and highlights pile up, and months later I can neither find nor combine what a source said.</dd></div>
+      <div><dt>Solution</dt><dd>Every source I save becomes a source page and updates the pages for its concepts, people and topics. A second agent checks each page against the original.</dd></div>
+      <div><dt>What it shows</dt><dd>I can turn a published idea into a running system with guardrails that maintains itself, at no additional running cost.</dd></div>
+    </dl>
+
+    <figure>
+      <div class="plate"><img src="../assets/diagrams/research-brain-architecture.svg" alt="Architecture: web articles, papers, books split into chapters and newsletter picks land in a read-only raw folder on the Mac. A scheduler starts an ingest agent that writes the wiki (sources, concepts, people, topics, syntheses) and a separate check agent that compares new pages against the source text. After each run the vault syncs to a private GitHub repository, which I can query from my phone through a Claude Code session." width="960" height="460"></div>
+      <figcaption><b>Fig. 1</b>Two agents with separate roles: one writes, one checks against the source. GitHub makes the wiki available on the phone. <span class="scroll-hint">Swipe to see the full diagram.</span></figcaption>
+    </figure>
+
+    <section class="prose">
+      <h2>The problem</h2>
+      <p>I read a lot across AI, strategy and economics, and I keep very little of it in a usable form. Notes apps store documents; they do not connect what one source says with what another one said months earlier. Search over raw documents finds passages but forgets everything between two questions.</p>
+
+      <h2>What I built</h2>
+      <p>The system follows Andrej Karpathy's <a href="https://gist.github.com/karpathy/442a6bf555914893e9891c11519de94f">LLM Wiki</a> pattern from April 2026: raw sources stay untouched, an AI agent compiles them into a wiki of plain Markdown pages, and a schema file defines the rules. Obsidian is where I read it.</p>
+      <p>I save an article with the Obsidian Web Clipper, drop a paper into a folder, or tick articles in a daily newsletter. Within minutes a background agent writes a source page with the key findings, figures and open questions, then updates or creates the pages for the concepts, people and topics involved, the index and a log. When a new source contradicts an existing page, the contradiction is recorded on that page with both sources.</p>
+      <p>Answers to my questions cite wiki pages and original sources. Good answers are filed back as synthesis pages, so the next question starts from a richer base.</p>
+    </section>
+
+    <h2>Key decisions</h2>
+    <ol class="decisions">
+      <li>
+        <h3>It runs unattended on an existing subscription</h3>
+        <p>macOS launchd starts the pipeline when a file arrives and every 15 minutes. Each source is processed by Claude Code in headless mode with a restricted tool set (read, write, edit, search), using my existing subscription instead of paid API calls. A state file, a process lock and three retries keep runs idempotent, and a notification tells me what was added.</p>
+      </li>
+      <li>
+        <h3>Books are processed chapter by chapter</h3>
+        <p>My first attempt ingested a 500-page book in one pass and produced a good overview with little depth. Now a book is split into chapter files with page markers. Each chapter gets its own note of 300 to 600 words with the argument, experiments and figures, each with a page reference. Concept pages link to the exact chapter and page. Five chapters run per cycle, so a full book is done unattended in a few hours.</p>
+      </li>
+      <li>
+        <h3>A second agent checks every page</h3>
+        <p>An unchecked AI wiki compounds its own errors, because new pages build on old ones. After each ingest, a separate agent with a fresh context compares the new and changed pages against the source text: figures, quotes, page references, who said what, and links. It fixes clear errors and flags what it cannot resolve. Interpretation stays out of scope, and anything the agent adds from its own knowledge must be labelled as such.</p>
+      </li>
+      <li>
+        <h3>Rules keep the wiki clean</h3>
+        <p>Originals are read-only. Every source page needs a link, ISBN or publisher reference. Tags come from a controlled vocabulary with a definition per tag, at most five per page. Newsletter articles I did not tick count as "seen" and are never used as evidence in answers.</p>
+      </li>
+      <li>
+        <h3>The phone works through GitHub</h3>
+        <p>After each run the vault syncs to a private GitHub repository. From my phone I open a Claude Code session on that repository, ask questions and save answers or new sources. The Mac picks up those changes on its next run and processes new sources there, so ingest and checks always happen in one place.</p>
+      </li>
+    </ol>
+
+    <section class="prose">
+      <h2>Where it stands</h2>
+      <ul>
+        <li>In personal use since late October 2026, with articles, essays and a first book of about 500 pages that became 42 chapter notes.</li>
+        <li>About one minute per chapter for the ingest, plus the check. No additional running cost.</li>
+        <li>Limits: it only runs while the Mac is awake. Navigation through an index works well for hundreds of pages; beyond that it needs a search layer. Book texts stay in the private repository.</li>
+      </ul>
+      <p><b>Next:</b> move the pipeline to an always-on machine and add a search layer once the wiki outgrows its index.</p>
+
+      <h2>What I learned</h2>
+      <p>Building the pipeline was fast. Trust was the hard part. I first designed a manual review step, then admitted I would never go through dozens of pages by hand. So the check had to be part of the system: a second agent with a fresh context that only verifies what can be verified against the source.</p>
+      <p>Granularity decides depth. The same model that wrote a shallow summary of a whole book wrote precise notes with page references once each call covered a single chapter.</p>
+    </section>
+  </main>
+
+  <footer class="site-foot">
+    <p><a href="../index.html">Back to all projects</a> or <a href="https://www.linkedin.com/in/nick-junge/">reach me on LinkedIn</a>.</p>
+    <p>Written and built by Nick Junge. Last updated November 2026.</p>
+  </footer>
+
+</div>
+</body>
+</html>

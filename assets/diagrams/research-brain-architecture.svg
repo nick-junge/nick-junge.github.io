@@ -1,0 +1,93 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 460" role="img" aria-labelledby="t d">
+  <title id="t">Research brain architecture</title>
+  <desc id="d">Four inputs feed a raw folder on the Mac: web articles from the Obsidian Web Clipper, papers and reports, books split into chapter files, and newsletter articles I tick. A scheduler starts an ingest agent whenever a new file arrives and every 15 minutes. The ingest agent, Claude Code running headless, writes and updates the wiki: source pages, concepts, people, topics and syntheses, read in Obsidian. A separate check agent with a fresh context compares new pages against the source text and fixes or flags errors. After each run the vault syncs to a private GitHub repository, so I can ask questions and save answers from my phone through a Claude Code session.</desc>
+  <style>
+    .box{fill:#fff;stroke:#16201C;stroke-width:1.5}
+    .app{fill:#E8EEFA;stroke:#1F5FBF;stroke-width:1.75}
+    .rev{fill:#F1F3EF;stroke:#16201C;stroke-width:1.5;stroke-dasharray:5 4}
+    .mac{fill:none;stroke:#8A948D;stroke-width:1.25;stroke-dasharray:6 4}
+    .h{font:600 16px "Helvetica Neue",Arial,sans-serif;fill:#16201C}
+    .ha{font:600 16px "Helvetica Neue",Arial,sans-serif;fill:#173F86}
+    .s{font:400 13px "Helvetica Neue",Arial,sans-serif;fill:#4A5550}
+    .l{font:600 12.5px "Helvetica Neue",Arial,sans-serif;fill:#5B6660}
+    .ln{stroke:#16201C;stroke-width:1.5;fill:none}
+    .dl{stroke:#16201C;stroke-width:1.5;fill:none;stroke-dasharray:5 4}
+  </style>
+  <defs>
+    <marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#16201C"/></marker>
+  </defs>
+
+  <!-- Inputs -->
+  <text class="l" x="20" y="38">Inputs I choose</text>
+  <rect class="box" x="20" y="50" width="170" height="80" rx="10"/>
+  <text class="h" x="36" y="80">Web article</text>
+  <text class="s" x="36" y="102">Obsidian Web Clipper</text>
+
+  <rect class="box" x="20" y="145" width="170" height="80" rx="10"/>
+  <text class="h" x="36" y="175">Paper or report</text>
+  <text class="s" x="36" y="197">PDF or Markdown</text>
+
+  <rect class="box" x="20" y="240" width="170" height="80" rx="10"/>
+  <text class="h" x="36" y="270">Book</text>
+  <text class="s" x="36" y="292">Split into chapters</text>
+
+  <rect class="box" x="20" y="335" width="170" height="80" rx="10"/>
+  <text class="h" x="36" y="365">Newsletter pick</text>
+  <text class="s" x="36" y="387">Articles I tick</text>
+
+  <path class="ln" d="M190 90H208M190 185H208M190 280H208M190 375H208M208 90V375"/>
+  <path class="ln" d="M208 100H238" marker-end="url(#a)"/>
+
+  <!-- Mac region -->
+  <rect class="mac" x="222" y="20" width="538" height="425" rx="14"/>
+  <text class="l" x="240" y="44">On my Mac</text>
+
+  <rect class="rev" x="240" y="60" width="150" height="80" rx="10"/>
+  <text class="h" x="256" y="90">raw/</text>
+  <text class="s" x="256" y="112">Originals, read-only</text>
+
+  <rect class="app" x="420" y="60" width="170" height="80" rx="10"/>
+  <text class="ha" x="436" y="90">Ingest agent</text>
+  <text class="s" x="436" y="112">Claude Code, headless</text>
+
+  <rect class="app" x="420" y="200" width="170" height="80" rx="10"/>
+  <text class="ha" x="436" y="230">Check agent</text>
+  <text class="s" x="436" y="252">Fresh context,</text>
+  <text class="s" x="436" y="268">fixes or flags</text>
+
+  <rect class="box" x="620" y="60" width="125" height="220" rx="10"/>
+  <text class="h" x="636" y="90">Wiki</text>
+  <text class="s" x="636" y="116">Sources</text>
+  <text class="s" x="636" y="136">Concepts</text>
+  <text class="s" x="636" y="156">People</text>
+  <text class="s" x="636" y="176">Topics</text>
+  <text class="s" x="636" y="196">Syntheses</text>
+  <text class="s" x="636" y="262">Read in Obsidian</text>
+
+  <path class="ln" d="M390 100H418" marker-end="url(#a)"/>
+  <path class="ln" d="M590 100H618" marker-end="url(#a)"/>
+  <path class="ln" d="M592 240H618" marker-start="url(#a)" marker-end="url(#a)"/>
+  <path class="dl" d="M315 140V240H418" marker-end="url(#a)"/>
+  <text class="l" x="324" y="228">source text</text>
+
+  <rect class="box" x="240" y="340" width="505" height="80" rx="10"/>
+  <text class="h" x="256" y="370">Scheduler (launchd)</text>
+  <text class="s" x="256" y="392">New file or every 15 minutes. State file, lock, retries, five chapters per run.</text>
+  <path class="dl" d="M505 340V282" marker-end="url(#a)"/>
+  <text class="l" x="514" y="318">starts both agents</text>
+
+  <!-- Anywhere -->
+  <text class="l" x="780" y="38">Anywhere</text>
+  <rect class="box" x="780" y="60" width="160" height="80" rx="10"/>
+  <text class="h" x="796" y="90">GitHub</text>
+  <text class="s" x="796" y="112">Private repo,</text>
+  <text class="s" x="796" y="128">synced each run</text>
+
+  <rect class="box" x="780" y="200" width="160" height="80" rx="10"/>
+  <text class="h" x="796" y="230">Phone</text>
+  <text class="s" x="796" y="252">Ask and save answers</text>
+  <text class="s" x="796" y="268">via Claude Code</text>
+
+  <path class="ln" d="M747 100H778" marker-start="url(#a)" marker-end="url(#a)"/>
+  <path class="ln" d="M860 142V198" marker-start="url(#a)" marker-end="url(#a)"/>
+</svg>
